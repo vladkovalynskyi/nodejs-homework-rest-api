@@ -12,5 +12,3 @@ class HttpError extends Error {
     this.status = status;
   }
 }
-
-export default HttpError;
