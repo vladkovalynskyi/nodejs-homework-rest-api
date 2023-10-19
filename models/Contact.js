@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import Joi from 'joi'
+import Joi from "joi"
 import { handleSaveError, runValidatorsAtUpdate } from "./hooks.js";
 
 const nameRegExp = /^[A-Za-zА-Яа-я]+([A-Za-zА-Яа-я]+)?$/;
