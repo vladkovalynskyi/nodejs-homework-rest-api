@@ -1,9 +1,11 @@
-import Contact from "../../models/Contact.js";
+import { Contact } from "../../models/index.js";
 import { HttpError } from "../../helpers/index.js";
 
-export const removeById = async (req, res, next) => {
+const removeById = async (req, res, next) => {
   const { id } = req.params;
-  const result = await Contact.findByIdAndRemove(id);
+  const { _id: owner } = req.user;
+
+  const result = await Contact.findOneAndRemove({ _id: id, owner });
 
   if (!result) {
     throw HttpError(404);
@@ -11,3 +13,5 @@ export const removeById = async (req, res, next) => {
 
   res.json({ message: "contact deleted" });
 };
+
+export default removeById;

@@ -1,9 +1,14 @@
-import Contact from "../../models/Contact.js";
+import { Contact } from "../../models/index.js";
 import { HttpError } from "../../helpers/index.js";
 
-export const getById = async (req, res, next) => {
+const getById = async (req, res, next) => {
   const { id } = req.params;
-  const result = await Contact.findById(id);
+  const { _id: owner } = req.user;
+
+  const result = await Contact.findOne(
+    { _id: id, owner },
+    "-createdAt -updatedAt"
+  ).populate("owner", "email");
 
   if (!result) {
     throw HttpError(404);
@@ -11,3 +16,5 @@ export const getById = async (req, res, next) => {
 
   res.json(result);
 };
+
+export default getById;

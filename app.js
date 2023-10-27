@@ -1,9 +1,10 @@
+import "dotenv/config";
 import express from "express";
 import logger from "morgan";
 import cors from "cors";
-import "dotenv/config.js";
+import helmet from "helmet";
 
-import contactsRouter from "./routes/api/contacts-router.js";
+import { contactsRouter, authRouter } from "./routes/api/index.js";
 
 export const app = express();
 
@@ -11,8 +12,10 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
 app.use(cors());
+app.use(helmet());
 app.use(express.json());
 
+app.use("/api/users", authRouter);
 app.use("/api/contacts", contactsRouter);
 
 app.use((req, res) => {
