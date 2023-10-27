@@ -1,5 +1,6 @@
-import { Schema, model } from 'mongoose';
-import Joi from "joi"
+import { Schema, model } from "mongoose";
+import Joi from "joi";
+
 import { handleSaveError, runValidatorsAtUpdate } from "./hooks.js";
 
 const nameRegExp = /^[A-Za-zА-Яа-я]+([A-Za-zА-Яа-я]+)?$/;
@@ -24,6 +25,11 @@ const contactSchema = new Schema(
     favorite: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
