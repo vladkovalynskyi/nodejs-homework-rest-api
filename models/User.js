@@ -23,6 +23,9 @@ const userSchema = new Schema(
       enum: ["starter", "pro", "business"],
       default: "starter",
     },
+    avatarURL: {
+      type: String,
+    },
     token: {
       type: String,
     },
@@ -30,11 +33,10 @@ const userSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-// Функція для обробки помилок при збереженні
 userSchema.post("save", handleSaveError);
 
-// Функція для виконання валідаторів під час оновлення
 userSchema.pre("findOneAndUpdate", runValidatorsAtUpdate);
+
 userSchema.post("findOneAndUpdate", handleSaveError);
 
 export const userSignupSchema = Joi.object({
@@ -52,6 +54,10 @@ export const userSigninSchema = Joi.object({
 
 export const userUpdateSubscriptionSchema = Joi.object({
   subscription: Joi.string().required(),
+});
+
+export const userUpdateAvatarSchema = Joi.object({
+  avatarURL: Joi.string(),
 });
 
 const User = model("user", userSchema);

@@ -6,4 +6,5 @@ export {
   userSignupSchema,
   userSigninSchema,
   userUpdateSubscriptionSchema,
+  userUpdateAvatarSchema,
 } from "./User.js";
