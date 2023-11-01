@@ -7,7 +7,7 @@ import {
   processAvatar,
 } from "../../helpers/index.js";
 
-const avatarsPath = path.resolve("public", "avatars");
+const avatarsPath = path.resolve(__dirname, "public", "avatars");
 
 const updateAvatar = async (req, res) => {
   const { path: oldTempPath, filename } = req.file;
@@ -18,7 +18,7 @@ const updateAvatar = async (req, res) => {
 
   processAvatar(oldTempPath, newPath);
 
-  await fs.unlink(oldTempPath);
+  fs.unlink(oldTempPath).catch((error) => console.error(error));
 
   const avatarURL = path.join("avatars", uniqueAvatarName);
 
@@ -29,7 +29,7 @@ const updateAvatar = async (req, res) => {
   }
 
   if (!oldAvatar.includes("gravatar")) {
-    const avatarToDelete = oldAvatar.split("avatars").join("public\\avatars");
+    const avatarToDelete = path.join("public", oldAvatar);
     await fs.unlink(avatarToDelete);
   }
 

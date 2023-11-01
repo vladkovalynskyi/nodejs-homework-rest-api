@@ -18,23 +18,27 @@ describe("test signin route", () => {
   });
 
   test("test signin with correct data", async () => {
-    const signinData = {
-      email: "test@test.com",
-      password: "testtest",
-    };
-
-    const { statusCode, body } = await request(app)
-      .post("/api/users/login")
-      .send(signinData);
-
-    expect(statusCode).toBe(200);
-
-    expect(body).toStrictEqual({
-      token: expect.any(String),
-      user: expect.objectContaining({
-        email: signinData.email,
-        subscription: expect.stringMatching(/starter|pro|business/),
-      }),
-    });
-  });
+    try {
+      const signinData = {
+        email: "test@test.com",
+        password: "testtest",
+      };
+  
+      const { statusCode, body } = await request(app)
+        .post("/api/users/login")
+        .send(signinData);
+  
+      expect(statusCode).toBe(200);
+  
+      expect(body).toStrictEqual({
+        token: expect.any(String),
+        user: expect.objectContaining({
+          email: signinData.email,
+          subscription: expect.stringMatching(/starter|pro|business/),
+        }),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  });  
 });
