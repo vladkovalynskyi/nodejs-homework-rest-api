@@ -1,10 +1,10 @@
 export { default as Contact } from "./Contact.js";
 export { default as User } from "./User.js";
 
-export { contactAddSchema, contactUpdateFavoriteSchema } from "./Contact.js";
+export { contactAddSchema, contactUpdateFavoriteSchema } from "../utils/validation/contactValidationSchemas.js";
 export {
   userSignupSchema,
   userSigninSchema,
   userUpdateSubscriptionSchema,
   userUpdateAvatarSchema,
-} from "./User.js";
+} from "../utils/validation/contactValidationSchemas.js";
