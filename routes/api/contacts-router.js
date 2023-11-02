@@ -1,6 +1,6 @@
 import express from "express";
 import { contactsController } from "../../controllers/index.js";
-import authenticate from "../../middlewares/authenticate.js";
+import { authenticate } from "../../middlewares/index.js";
 import { validateBody } from "../../decorators/index.js";
 import {
   contactAddSchema,
