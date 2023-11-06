@@ -43,3 +43,7 @@ export const userUpdateSubscriptionSchema = Joi.object({
 export const userUpdateAvatarSchema = Joi.object({
     avatarURL: Joi.string(),
 });
+
+export const userVerifyEmailSchema = Joi.object({
+  email: Joi.string().pattern(emailRegExp).required(),
+});
