@@ -7,9 +7,12 @@ import {
   generateAvatar,
   generateAvatarUniqueName,
   processAvatar,
+  sendEmail,
 } from "../../helpers/index.js";
+import { nanoid } from "nanoid";
 
 const avatarsPath = path.resolve("public", "avatars");
+const { BASE_URL } = process.env;
 
 const signup = async (req, res) => {
   const { email, password } = req.body;
@@ -21,11 +24,14 @@ const signup = async (req, res) => {
 
   const hashPassword = await bcrypt.hash(password, 10);
 
+  const verificationToken = nanoid();
+
   const newUserInfo = {
     ...req.body,
     password: hashPassword,
     subscription: "starter",
     avatarURL: "",
+    verificationToken,
   };
 
   if (!req.file) {
@@ -48,6 +54,15 @@ const signup = async (req, res) => {
   }
 
   const newUser = await User.create(newUserInfo);
+  console.log("signup ~ newUser:", newUser);
+
+  const verifyEmail = {
+    to: newUser.email,
+    subject: "Verify email",
+    html: `<a target="_blank" href="${BASE_URL}/api/users/verify/${newUser.verificationToken}">Click to verify email</a>`,
+  };
+
+  await sendEmail(verifyEmail);
 
   res.status(201).json({
     user: {
